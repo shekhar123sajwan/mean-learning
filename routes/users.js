@@ -12,15 +12,14 @@ Router.post('/register', (req, res, next) => {
         username: req.body.username,
         password: req.body.password
     });
-    console.log(req.body)
 
-    // User.addUser(newUser, (err, user) => {
-    //     if (err) {
-    //         res.json({ success: false, msg: 'Failed to register user' });
-    //     } else {
-    //         res.json({ success: true, msg: 'User registered' });
-    //     }
-    // })
+    User.addUser(newUser, (err, user) => {
+        if (err) {
+            res.json({ success: false, msg: 'Failed to register user' });
+        } else {
+            res.json({ success: true, msg: 'User registered' });
+        }
+    })
 })
 
 Router.get('/authenticate', (req, res, next) => {

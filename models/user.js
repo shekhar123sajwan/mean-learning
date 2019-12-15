@@ -6,9 +6,18 @@ const UserSchema = mongoose.Schema({
     email: { type: String, required: true },
     username: { type: String, required: true },
     password: { type: String, required: true }
+}, {
+    writeConcern: {
+        w: 'majority',
+        j: true,
+        wtimeout: 1000
+    }
+}, {
+    timestamps: true
 })
 
 const User = mongoose.model('User', UserSchema);
+module.exports = User;
 
 module.exports.getUserById = function(id, callback) {
     User.findById(id, callback)
@@ -19,7 +28,7 @@ module.exports.getUserByUserName = function(username, callback) {
 }
 
 module.exports.addUser = function(newUser, callback) {
-    bcrypt.genSalt(10, (err) => {
+    bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
             newUser.password = hash;

@@ -22,13 +22,18 @@ app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.json());
-app.use(express.json());
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+require('./config/passport')(passport);
+
+app.use(express.json());
 app.use('/users', users);
 
 app.get('/', (req, res, next) => {
     res.status(200).send('Invalid')
 })
 app.listen(port, () => {
-    console.log(` listening PORT ${port}`);
+    console.log(`listening PORT ${port}`);
 })

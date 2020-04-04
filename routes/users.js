@@ -36,7 +36,7 @@ Router.post('/auth', (req, res, next) => {
             if (err) throw err;
             if (isMatch) {
                 const token = jwt.sign(user.toJSON(), process.env.SECRET, {
-                    expiresIn: 20
+                    expiresIn: 60
                 });
                 res.json({
                     success: true,
